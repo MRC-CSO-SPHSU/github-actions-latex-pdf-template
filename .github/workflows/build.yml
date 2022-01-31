@@ -80,7 +80,7 @@ jobs:
           path: ${{ env.OUT_DIR }}
 
       - name: Move artifacts to deploy directory
-        run: mkdir -p github_deploy && mv ${{ env.OUT_DIR }}/${{ env.FILE }}.pdf github_deploy
+        run: mkdir -p github_deploy && mv ${{ env.OUT_DIR }}/*/* github_deploy
 
       - name: Deploy on orphan branch
         uses: peaceiris/actions-gh-pages@v3
