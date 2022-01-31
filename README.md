@@ -5,7 +5,7 @@ It supports automatic deployment of the `.pdf` document as well version control/
 ## Build status
 [![build](https://github.com/MRC-CSO-SPHSU/latex_document_template/actions/workflows/build.yml/badge.svg)](https://github.com/MRC-CSO-SPHSU/latex_document_template/MRC-CSO-SPHSU/latex_document_template/actions)
 
-The latest document file is available [here](https://github.com/MRC-CSO-SPHSU/latex_document_template/blob/build/draft.pdf)
+The latest document file is available [here](https://github.com/MRC-CSO-SPHSU/latex_document_template/blob/build/main.pdf)
 
 *NOTE*: do not forget to change the link in your own version of the repository.
 
