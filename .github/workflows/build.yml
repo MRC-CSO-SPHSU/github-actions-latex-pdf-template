@@ -1,0 +1,93 @@
+name: Build and Release PDF
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+env:
+  FILE: main
+  OUT_DIR: github_artifacts
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0 # First step for `git log` to match local history, removes `grafted`
+
+      - name: Add post-checkout git hook
+        run: |
+          cp ./gitinfo2/post-xxx-sample.txt ./.git/hooks/post-xxx-hook
+          chmod 755 ./.git/hooks/post-xxx-hook
+
+      - name: Fix HEAD position
+        run: |
+          git switch master # Checkout leaves the HEAD detached, this step fixes the issue
+
+      - name: Trigger git hook
+        run: |
+          ./.git/hooks/post-xxx-hook
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: ${{ env.FILE }}.tex
+
+      - name: Move artifacts to dedicated directory
+        run: mkdir -p ${{ env.OUT_DIR }} && mv ${{ env.FILE }}.pdf ./${{ env.OUT_DIR }}/
+
+      - name: Upload pdf as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.FILE }}.pdf
+          path: ./${{ env.OUT_DIR }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # See https://github.com/elgohr/Github-Release-Action for RELEASE_TOKEN discussion
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./${{ env.OUT_DIR }}/${{ env.FILE }}.pdf
+          asset_name: ${{ env.FILE }}.pdf
+          asset_content_type: pdf
+
+  deploy:
+    needs: [build] # Add other jobs if needed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          path: ${{ env.OUT_DIR }}
+
+      - name: Move artifacts to deploy directory
+        run: mkdir -p github_deploy && mv ${{ env.OUT_DIR }}/${{ env.FILE }}.pdf github_deploy
+
+      - name: Deploy on orphan branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./github_deploy
+          publish_branch: build
+          force_orphan: true
+
+
