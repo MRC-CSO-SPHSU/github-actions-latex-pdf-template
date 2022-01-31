@@ -3,7 +3,7 @@ This is a template repository containing a LaTeX stub document for collaborative
 It supports automatic deployment of the `.pdf` document as well version control/labeling of the said document via [*gitinfo2*](https://github.com/Hightor/gitinfo2).
 
 ## Build status
-[![build](https://github.com/MRC-CSO-SPHSU/latex_document_template/actions/workflows/build.yml/badge.svg)](https://github.com/MRC-CSO-SPHSU/latex_document_template/MRC-CSO-SPHSU/latex_document_templateactions)
+[![build](https://github.com/MRC-CSO-SPHSU/latex_document_template/actions/workflows/build.yml/badge.svg)](https://github.com/MRC-CSO-SPHSU/latex_document_template/MRC-CSO-SPHSU/latex_document_template/actions)
 
 The latest document file is available [here](https://github.com/MRC-CSO-SPHSU/latex_document_template/blob/build/draft.pdf)
 
