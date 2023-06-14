@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0 # First step for `git log` to match local history, removes `grafted`
@@ -42,7 +42,7 @@ jobs:
         run: mkdir -p ${{ env.OUT_DIR }} && mv ${{ env.FILE }}.pdf ./${{ env.OUT_DIR }}/
 
       - name: Upload pdf as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILE }}.pdf
           path: ./${{ env.OUT_DIR }}
@@ -74,8 +74,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+        uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
         with:
           path: ${{ env.OUT_DIR }}
 
