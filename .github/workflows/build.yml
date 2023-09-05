@@ -37,7 +37,7 @@ jobs:
           ./.git/hooks/post-xxx-hook
 
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: ${{ env.FILE }}.tex
 
