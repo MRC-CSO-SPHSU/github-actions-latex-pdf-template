@@ -45,7 +45,7 @@ jobs:
         run: mkdir -p ${{ env.OUT_DIR }} && mv ${{ env.FILE }}.pdf ./${{ env.OUT_DIR }}/
 
       - name: Upload pdf as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.FILE }}.pdf
           path: ./${{ env.OUT_DIR }}
